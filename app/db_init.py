@@ -1,0 +1,30 @@
+import asyncio
+from sqlalchemy.exc import OperationalError
+from app.models import Base, engine, seed_data
+
+
+RETRY_INTERVAL = 2
+MAX_RETRIES = 10
+
+
+async def init_db():
+    retries = 0
+    while retries < MAX_RETRIES:
+        try:
+            async with engine.begin() as conn:
+                await conn.run_sync(Base.metadata.create_all)
+            print("✅ The database is ready and the tables have been created")
+
+            await seed_data()
+            print("✅ Seed data has been added")
+
+            return
+        except OperationalError:
+            retries += 1
+            print(f"⚠️ Сouldn't connect to the database. Try {retries}/{MAX_RETRIES}...")
+            await asyncio.sleep(RETRY_INTERVAL)
+    raise RuntimeError("❌ Couldn't connect to the database after many tries")
+
+
+if __name__ == "__main__":
+    asyncio.run(init_db())
