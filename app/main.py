@@ -1,10 +1,17 @@
 from litestar import Litestar
-from app.routes import list_tests, health_check
+from app.routes import list_tests, health_check, retrieve_test, create_test, update_test, delete_test
 from app.db_init import init_db
 import asyncio
 
 litestar_app = Litestar(
-    route_handlers=[list_tests, health_check],
+    route_handlers=[
+        list_tests,
+        health_check,
+        retrieve_test,
+        create_test,
+        update_test,
+        delete_test
+    ],
     debug=True
 )
 
