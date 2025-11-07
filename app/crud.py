@@ -13,11 +13,8 @@ async def get_all_tests() -> list[dict]:
             result = await session.execute(select(TestAPI))
             tests = result.scalars().all()
             return [
-                {
-                    "id": t.id,
-                    "name": t.name,
-                    "description": t.description
-                } for t in tests
+                {"id": t.id, "name": t.name, "description": t.description}
+                for t in tests
             ]
     except Exception as e:
         logger.exception("Error retrieving tests from the database")
@@ -34,12 +31,13 @@ async def get_test_by_id(test_id: int) -> dict | None:
                 return {
                     "id": test.id,
                     "name": test.name,
-                    "description": test.description
+                    "description": test.description,
                 }
             return None
     except Exception as e:
         logger.exception(f"Error retrieving test with id={test_id}")
         raise
+
 
 async def create_test(name: str, description: str | None = None) -> dict:
     async with async_session() as session:
@@ -55,7 +53,9 @@ async def create_test(name: str, description: str | None = None) -> dict:
 
 
 # UPDATE
-async def update_test(test_id: int, name: str | None = None, description: str | None = None) -> dict | None:
+async def update_test(
+    test_id: int, name: str | None = None, description: str | None = None
+) -> dict | None:
     async with async_session() as session:
         test = await session.get(TestAPI, test_id)
         if not test:
@@ -67,6 +67,7 @@ async def update_test(test_id: int, name: str | None = None, description: str | 
         await session.commit()
         await session.refresh(test)
         return {"id": test.id, "name": test.name, "description": test.description}
+
 
 # DELETE
 async def delete_test(test_id: int) -> bool:

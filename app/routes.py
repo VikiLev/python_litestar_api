@@ -5,8 +5,9 @@ from app.crud import (
     get_test_by_id as crud_get_test_by_id,
     create_test as crud_create_test,
     update_test as crud_update_test,
-    delete_test as crud_delete_test
+    delete_test as crud_delete_test,
 )
+
 
 @get("/tests")
 async def list_tests() -> list[dict]:

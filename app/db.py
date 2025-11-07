@@ -31,11 +31,13 @@ async def populate_test_data():
     async with async_session() as session:
         count = (await session.execute("SELECT COUNT(*) FROM test_api")).scalar()
         if count == 0:
-            session.add_all([
-                TestAPI(name="Alpha", description="First test record"),
-                TestAPI(name="Beta", description="Second test record"),
-                TestAPI(name="Gamma", description="Third test record"),
-            ])
+            session.add_all(
+                [
+                    TestAPI(name="Alpha", description="First test record"),
+                    TestAPI(name="Beta", description="Second test record"),
+                    TestAPI(name="Gamma", description="Third test record"),
+                ]
+            )
             await session.commit()
             print("✅ Added sample test data.")
         else:

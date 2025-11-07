@@ -1,5 +1,12 @@
 from litestar import Litestar
-from app.routes import list_tests, health_check, retrieve_test, create_test, update_test, delete_test
+from app.routes import (
+    list_tests,
+    health_check,
+    retrieve_test,
+    create_test,
+    update_test,
+    delete_test,
+)
 from app.db_init import init_db
 import asyncio
 
@@ -10,10 +17,11 @@ litestar_app = Litestar(
         retrieve_test,
         create_test,
         update_test,
-        delete_test
+        delete_test,
     ],
-    debug=True
+    debug=True,
 )
+
 
 async def asgi_app(scope, receive, send):
     await init_db()
