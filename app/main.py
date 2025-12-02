@@ -8,7 +8,7 @@ from app.routes import (
     delete_test,
 )
 from app.db_init import init_db
-import asyncio
+from app.config import settings
 
 litestar_app = Litestar(
     route_handlers=[
@@ -19,7 +19,7 @@ litestar_app = Litestar(
         update_test,
         delete_test,
     ],
-    debug=True,
+    debug=settings.DEBUG,
 )
 
 

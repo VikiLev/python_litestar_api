@@ -6,6 +6,5 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app/ ./app
-COPY .env ./
 
 CMD ["granian", "--interface", "asgi", "--host", "0.0.0.0", "--port", "5000", "app.main:asgi_app"]
